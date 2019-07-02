@@ -2,17 +2,6 @@
 
 typedef int (*op_t)(int, int);
 
-/* Operation identifiers */
-
-#define DEF_VOP(name, sym, a, b, expr) \
-	VOP_##name,
-
-typedef enum {
-#include "vops_def.h"
-} op_id;
-
-#undef DEF_VOP
-
 /* Operation implementations */
 
 #define DEF_VOP(name, sym, a, b, expr) \
@@ -26,9 +15,10 @@ typedef enum {
 
 /* The lookup table of operations */
 
-#define DEF_VOP(name, sym, a, b, expr) \
-	[VOP_##name] = { \
-		.operation = op_impl_##name, \
+#define DEF_VOP(op, sym, a, b, expr) \
+	[VOP_##op] = { \
+		.impl = op_impl_##op, \
+		.name = #op, \
 		.symbol = sym, \
 	},
 
